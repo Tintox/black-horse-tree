@@ -79,4 +79,13 @@ app.put('/api/comments/:id', function(req, res) {
       return console.log(err);
     }
     var comments = JSON.parse(data);
-    comments[req
+    comments[req.params.id] = req.body;
+    fs.writeFile(filePath, JSON.stringify(comments), function(err) {
+      if(err) {
+        return console.log(err);
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(comments));
+    });
+  });
+});
